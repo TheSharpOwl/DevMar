@@ -9,9 +9,9 @@ contract Marketplace {
 
     string public name;
     uint public productCount;
-    mapping(uint => product) public products;
+    mapping(uint => Product) public products;
 
-    struct product{
+    struct Product{
         uint id;
         string name;
         address owner;
@@ -19,11 +19,21 @@ contract Marketplace {
         bool purchased;
     }
 
-    function createProduct() public {
+    event ProductCreated(
+        uint id,
+        string name,
+        address owner,
+        uint price,
+        bool purchased
+    );
+
+    function createProduct(string memory _name, uint _price) public {
         // check parameters
         
         // create the product
-        productCount ++;
+        productCount++;
+        products[productCount] = Product(productCount, _name, msg.sender, _price, false);
         // generate the event
+        emit ProductCreated(productCount, _name, msg.sender, _price, false);
     }
 }
