@@ -22,8 +22,25 @@ contract('Marketplace', (accounts) => {
 
         it('has a name', async () => {
             const name = await marketplace.name()
-            
+
             assert.equal(name, 'DevMar')
         })
     })
-})  
+
+
+    // our test here
+    describe('products', async () => {
+        let result, productCount, newProductCount
+
+        before(async () => {
+            productCount = await marketplace.productCount()
+            result = await marketplace.createProduct()
+            newProductCount = await marketplace.productCount()
+        })
+        
+        it('creates products', async () => {
+            assert.equal(+productCount + 1, +newProductCount)
+        })
+    })
+
+})
