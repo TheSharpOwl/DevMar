@@ -29,7 +29,8 @@ contract Marketplace {
 
     function createProduct(string memory _name, uint _price) public {
         // check parameters
-        
+        require(bytes(_name).length > 0);
+        require(_price > 0);
         // create the product
         productCount++;
         products[productCount] = Product(productCount, _name, msg.sender, _price, false);
