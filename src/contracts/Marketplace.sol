@@ -14,12 +14,20 @@ contract Marketplace {
     struct Product{
         uint id;
         string name;
-        address owner;
+        address payable owner;
         uint price;
         bool purchased;
     }
 
     event ProductCreated(
+        uint id,
+        string name,
+        address owner,
+        uint price,
+        bool purchased
+    );
+
+    event ProductPurchased(
         uint id,
         string name,
         address owner,
@@ -37,4 +45,30 @@ contract Marketplace {
         // generate the event
         emit ProductCreated(productCount, _name, msg.sender, _price, false);
     }
+
+
+
+    function purchaseProduct(uint _id) public payable {
+        // make sure of the id
+        require(_id > 0 && _id <= productCount);
+        Product memory _product = products[_id];
+
+        // make sure of the money amount
+        require(msg.value >= _product.price);
+        // make sure the product is not sold
+        require(!_product.purchased);
+        
+        address payable _seller = _product.owner;
+
+        // make sure the seller is not the buyer
+        require(_seller != msg.sender);
+          
+        _product.owner = msg.sender;
+
+        _product.purchased = true;
+        products[_id] = _product;
+        address(_seller).transfer(msg.value);
+        emit ProductPurchased(_id, _product.name, msg.sender, _product.price, true);
+    }
+
 }
