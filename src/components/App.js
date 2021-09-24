@@ -46,6 +46,15 @@ class App extends Component {
         })
       }
       this.setState({ loading: false })
+
+      let https = require('https');
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum'
+      const response = await fetch(url);
+      var data = await response.json();
+      console.log(data[0]['current_price'])
+      let currentPrice = data[0]['current_price']
+      this.setState({ exchangeRate: currentPrice })
+
     } else {
       window.alert('Marketplace contract not deployed to detected network.')
     }
@@ -57,11 +66,13 @@ class App extends Component {
       account: '',
       productCount: 0,
       products: [],
-      loading: true
+      loading: true,
+      exchangeRate: -1
     }
 
     this.createProduct = this.createProduct.bind(this) // to make react know that the createProduct() (below this comment) is the same as the one called in render()
     this.purchaseProduct = this.purchaseProduct.bind(this) // same as the line above it but for purchasing
+    this.showExchangeRate = this.showExchangeRate.bind(this)
   }
 
   createProduct(name, price) {
@@ -80,6 +91,14 @@ class App extends Component {
       })
   }
 
+  async showExchangeRate() {
+    let https = require('https');
+    const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum'
+    const response = await fetch(url);
+    var data = await response.json();
+    console.log(data)
+  }
+
   render() {
     return (
       <div>
@@ -96,6 +115,12 @@ class App extends Component {
               }
             </main>
           </div>
+        </div>
+        <div>
+          {this.state.loading
+            ? <h4></h4>
+            : <h4>&nbsp;&nbsp;Exchange rate 1 Eth = {this.state.exchangeRate}$</h4>
+          }
         </div>
       </div>
     );

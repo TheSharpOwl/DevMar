@@ -72,15 +72,15 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
         })
 
 
-        
+
         it('sells products', async () => {
             let oldSellerBalance = await web3.eth.getBalance(seller)
             // convert to a big number
             oldSellerBalance = new web3.utils.BN(oldSellerBalance)
 
 
-            const result = await marketplace.purchaseProduct(newProductCount, {from : buyer, value : web3.utils.toWei('1', 'Ether')})
-            
+            const result = await marketplace.purchaseProduct(newProductCount, { from: buyer, value: web3.utils.toWei('1', 'Ether') })
+
             const event = result.logs[0].args
             assert.equal(event.id.toNumber(), newProductCount.toNumber(), 'id is correct')
             assert.equal(event.name, 'AlienWare X17', 'name is correct')
@@ -100,17 +100,16 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
 
             assert.equal(newSellerBalance.toString(), expectedBalance.toString())
 
-             // Failure cases:
+            // Failure cases:
 
             // FAILURE: buy a product that exists
-            await marketplace.purchaseProduct(99, {from : buyer, value : web3.utils.toWei('1', 'Ether')}).should.be.rejected
+            await marketplace.purchaseProduct(99, { from: buyer, value: web3.utils.toWei('1', 'Ether') }).should.be.rejected
             // FAILURE: buy with enough ether
-            await marketplace.purchaseProduct(newProductCount, {from : buyer, value : web3.utils.toWei('0.5', 'Ether')}).should.be.rejected
+            await marketplace.purchaseProduct(newProductCount, { from: buyer, value: web3.utils.toWei('0.5', 'Ether') }).should.be.rejected
             // FAILURE: product is only sold once
-            await marketplace.purchaseProduct(newProductCount, {from : deployer, value : web3.utils.toWei('1', 'Ether')}).should.be.rejected
-            
-           let temp =  await web3.eth.net.getId()
-           .then(console.log);
+            await marketplace.purchaseProduct(newProductCount, { from: deployer, value: web3.utils.toWei('1', 'Ether') }).should.be.rejected
+
+
         })
     })
 
