@@ -13,6 +13,4 @@ npm run build
 ```
 
 ![](https://i.imgur.com/2K4wmSY.png)
-## References
 
-[DappUniversity StarterKit](https://github.com/dappuniversity/starter_kit)
