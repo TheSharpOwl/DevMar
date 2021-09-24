@@ -47,7 +47,6 @@ class App extends Component {
       }
       this.setState({ loading: false })
 
-      let https = require('https');
       const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum'
       const response = await fetch(url);
       var data = await response.json();
@@ -72,7 +71,6 @@ class App extends Component {
 
     this.createProduct = this.createProduct.bind(this) // to make react know that the createProduct() (below this comment) is the same as the one called in render()
     this.purchaseProduct = this.purchaseProduct.bind(this) // same as the line above it but for purchasing
-    this.showExchangeRate = this.showExchangeRate.bind(this)
   }
 
   createProduct(name, price) {
@@ -89,14 +87,6 @@ class App extends Component {
       .once('receipt', (receipt) => {
         this.setState({ loading: false })
       })
-  }
-
-  async showExchangeRate() {
-    let https = require('https');
-    const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum'
-    const response = await fetch(url);
-    var data = await response.json();
-    console.log(data)
   }
 
   render() {
