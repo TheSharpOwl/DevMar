@@ -108,8 +108,9 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
             await marketplace.purchaseProduct(newProductCount, {from : buyer, value : web3.utils.toWei('0.5', 'Ether')}).should.be.rejected
             // FAILURE: product is only sold once
             await marketplace.purchaseProduct(newProductCount, {from : deployer, value : web3.utils.toWei('1', 'Ether')}).should.be.rejected
-
-
+            
+           let temp =  await web3.eth.net.getId()
+           .then(console.log);
         })
     })
 
