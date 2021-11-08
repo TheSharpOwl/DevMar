@@ -1,5 +1,5 @@
 # DevMar
-Online Market Website using Blockchain and Solidaty Contracts.
+Online Market Website using Blockchain and Solidity Contracts.
 
 
 ### How to run
